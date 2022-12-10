@@ -6,63 +6,74 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
-    <height>368</height>
+    <width>350</width>
+    <height>280</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>350</width>
+    <height>280</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>350</width>
+    <height>280</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>确认开机采样时间和频率</string>
   </property>
-  <widget class="QDateTimeEdit" name="dateTimeEdit">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>90</y>
-     <width>194</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="displayFormat">
-    <string>yyyy-MM-dd HH:mm:ss</string>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="spinBox">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>170</y>
-     <width>81</width>
-     <height>22</height>
+     <x>250</x>
+     <y>100</y>
+     <width>46</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
-   <property name="suffix">
-    <string>Hz</string>
-   </property>
-   <property name="prefix">
-    <string/>
+   <property name="decimals">
+    <number>1</number>
    </property>
    <property name="maximum">
-    <number>9999</number>
+    <double>9.900000000000000</double>
    </property>
-   <property name="value">
-    <number>50</number>
+   <property name="singleStep">
+    <double>0.100000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>100</y>
+     <width>180</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>延迟采集的时间（小时）：</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>250</y>
-     <width>81</width>
-     <height>31</height>
+     <x>220</x>
+     <y>160</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="font">
@@ -71,43 +82,27 @@
     </font>
    </property>
    <property name="text">
-    <string>确认</string>
+    <string>写入tf卡</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>90</y>
-     <width>41</width>
-     <height>21</height>
+     <x>10</x>
+     <y>250</y>
+     <width>381</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>日期：</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>170</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>频率：</string>
+    <string>正在获取当前时间</string>
    </property>
   </widget>
  </widget>
