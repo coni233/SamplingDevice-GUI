@@ -67,21 +67,21 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
                 day = i.strip().split('Time:')[1].split(';')[2].split(':')[1]
                 merge = day + ' ' + time
                 self.x.append(merge)
-            print('33',self.x)
+            #print('33',self.x)
 
             tempers = l[1::3]
             self.temper_l = []
             for i in tempers:
                 temper = i.split(':')[1].strip().replace('℃', '')
                 self.temper_l.append(eval(temper))
-            print(self.temper_l)
+            #print(self.temper_l)
 
             depths = l[2::3]
             self.depth_l = []
             for i in depths:
                 depth = i.split(':')[1].split(' ')[1]
                 self.depth_l.append(eval(depth))
-            print(self.depth_l)
+            #print(self.depth_l)
 
             self.step = int(len(self.x)/7 + 1) #x轴的step
 
@@ -219,6 +219,7 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         plt.xticks(self.x[::self.step], self.x[::self.step], rotation=0, fontsize=8)
         plt.scatter(self.x, self.temper_l,color='b',alpha=0.2)
         plt.xlabel('时间',fontsize=10)
+        plt.ylabel('温度',fontsize=10)
         plt.grid()
         # plt.show()
         self.canvas.draw()
@@ -236,6 +237,7 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         plt.xticks(self.x[::self.step], self.x[::self.step], rotation=0, fontsize=8)
         plt.scatter(self.x, self.depth_l,color='r',alpha=0.2)
         plt.xlabel('时间',fontsize=10)
+        plt.ylabel('深度',fontsize=10)
         plt.grid()
         # plt.show()
         self.canvas.draw()
@@ -260,11 +262,11 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
                         temp = self.time_xls[row+i].strip('(').strip(')').replace(" ", "")
                         temp = temp.split(',')[0] + '-' + temp.split(',')[1] + '-' + temp.split(',')[2] + ' ' + temp.split(',')[3] + ':' + temp.split(',')[4] + ':' + str(i*10) 
                         self.time_xls[row+i] = temp
-                print(self.time_xls)
+                #print(self.time_xls)
                 self.press_xls = sheet.col_values(2)[1:] 
-                print(self.press_xls)
+                #print(self.press_xls)
                 self.speed_xls = sheet.col_values(3)[1:] 
-                print(self.speed_xls)
+                #print(self.speed_xls)
 
                 self.step2 = int(len(self.time_xls)/7 + 1)
 
@@ -361,6 +363,7 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         plt.xticks(self.time_xls[::self.step2], self.time_xls[::self.step2], rotation=0, fontsize=8)
         plt.scatter(self.time_xls, self.press_xls,color='g',alpha=0.2)
         plt.xlabel('时间',fontsize=10)
+        plt.ylabel('压力',fontsize=10)
         plt.grid()
         # plt.show()
         self.canvas.draw()
@@ -374,10 +377,11 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         self.horizontalLayout.addWidget(self.canvas)
         plt.plot(self.time_xls, self.speed_xls,color='y')
         plt.rcParams['font.sans-serif']=['Microsoft Yahei']#matplotlib不支持中文，得这样   
-        plt.legend(labels=['压力','速度'],loc=0)
+        plt.legend(labels=['速度'],loc=0)
         plt.xticks(self.time_xls[::self.step2], self.time_xls[::self.step2], rotation=0, fontsize=8)
         plt.scatter(self.time_xls, self.speed_xls,color='y',alpha=0.2)
         plt.xlabel('时间',fontsize=10)
+        plt.ylabel('速度',fontsize=10)
         plt.grid()
         # plt.show()
         self.canvas.draw()
@@ -438,12 +442,14 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         plt.plot(self.x, self.temper_l,color='b')
         plt.rcParams['font.sans-serif']=['Microsoft Yahei']#matplotlib不支持中文，得这样   
         plt.legend(labels=['温度'],loc=0)
+        plt.ylabel('温度',fontsize=10)
         plt.xticks(self.x[::self.step*2], self.x[::self.step*2], rotation=0, fontsize=8)#x轴要更稀疏
         plt.grid()
         plt.subplot(2, 2, 2)#子图2
         plt.plot(self.x, self.depth_l,color='r')
         plt.rcParams['font.sans-serif']=['Microsoft Yahei']#matplotlib不支持中文，得这样   
         plt.legend(labels=['深度'],loc=0)
+        plt.ylabel('深度',fontsize=10)
         plt.xticks(self.x[::self.step*2], self.x[::self.step*2], rotation=0, fontsize=8)#x轴要更稀疏
         plt.grid()
         plt.subplot(2, 2, 3)#子图3
@@ -452,6 +458,7 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         plt.legend(labels=['压力'],loc=0)
         plt.xticks(self.time_xls[::self.step2*2], self.time_xls[::self.step2*2], rotation=0, fontsize=8)
         plt.xlabel('时间',fontsize=10)
+        plt.ylabel('压力',fontsize=10)
         plt.grid()
         plt.subplot(2, 2, 4)#子图4
         plt.plot(self.time_xls, self.speed_xls,color='y')
@@ -459,6 +466,7 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         plt.legend(labels=['速度'],loc=0)
         plt.xticks(self.time_xls[::self.step2*2], self.time_xls[::self.step2*2], rotation=0, fontsize=8)
         plt.xlabel('时间',fontsize=10)
+        plt.ylabel('速度',fontsize=10)
         plt.grid()
         self.canvas.draw()
 

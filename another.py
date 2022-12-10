@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import anotherGUI
 import sys
+import os
+import string
 
 class shuchu(QtWidgets.QMainWindow,anotherGUI.Ui_Form):
     def __init__(self):
@@ -14,14 +16,35 @@ class shuchu(QtWidgets.QMainWindow,anotherGUI.Ui_Form):
 
     def INI_file(self):
         time=str(self.doubleSpinBox.value())
-        print(time)
-        filepath, type = QtWidgets.QFileDialog.getSaveFileName(self, "文件保存", "./INI.txt" ,'txt(*.txt)')
-        try:
-            with open(filepath,'w+') as file:
-                file.write(time)
-                QtWidgets.QMessageBox.information(None,'提示','文件保存成功')
-        except:
-            QtWidgets.QMessageBox.warning(None,'警告','没有成功保存！！！')
+        #print(time)
+        disk_list = []
+        for c in string.ascii_uppercase:
+            disk = c+':/'
+            if os.path.isdir(disk):
+                disk_list.append(disk)
+        j = 0
+        for i in disk_list:
+            if os.path.exists(os.path.join(i,"ahfu2el253sdf235lfsnpiov9.txt")):
+                j = j + 1
+                path = os.path.join(i, "INI.txt")
+        if j == 1:
+            try:
+                with open(path,'w+') as file:
+                    file.write(time)
+                    QtWidgets.QMessageBox.information(None,'提示','文件保存成功')
+            except:
+                QtWidgets.QMessageBox.warning(None,'警告','没有成功保存！！！')
+        elif j == 0:
+            QtWidgets.QMessageBox.warning(None,'警告','未检测到tf卡，请检测tf卡根目录是否存在“ahfu2el253sdf235lfsnpiov9.txt”文件')
+        else:
+            QtWidgets.QMessageBox.warning(None,'警告','检测到多张tf卡，请手动选择位置')
+            filepath, type = QtWidgets.QFileDialog.getSaveFileName(self, "文件保存", "./INI.txt" ,'txt(*.txt)')
+            try:
+                with open(filepath,'w+') as file:
+                    file.write(time)
+                    QtWidgets.QMessageBox.information(None,'提示','文件保存成功')
+            except:
+                QtWidgets.QMessageBox.warning(None,'警告','没有成功保存！！！')
 
     def updateTime(self):
         time=QtCore.QDateTime.currentDateTime()    #获取现在的时间

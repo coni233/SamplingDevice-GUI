@@ -9,18 +9,20 @@ import string
 def get_disklist():
     disk_list = []
     for c in string.ascii_uppercase:
-        disk = c+':'
+        disk = c+':/'
         if os.path.isdir(disk):
             disk_list.append(disk)
-    return disk_list
- 
-def monitor_usbdisk(disk_list):
-    while True:
-        usb_disk = get_disklist()[-1]
-        if  usb_disk not in disk_list:
-            print('Warning : USB disk be insert on ',usb_disk)
-            #break
-        time.sleep(5)
+    print(disk_list)
+    #f = os.path.exists('C:/ahfu2el253sdf235lfsnpiov9.txt')
+    #print(f)
+    j = 0
+    for i in disk_list:
+        if os.path.exists(os.path.join(i, "ahfu2el253sdf235lfsnpiov9.txt")):
+            j = j + 1
+            path = os.path.join(i, "INI.txt")
+    print(j)
+    print(path)
+    return path
  
 if __name__ == '__main__':
-    monitor_usbdisk(get_disklist())
+    get_disklist()
