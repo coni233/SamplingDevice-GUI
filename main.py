@@ -60,7 +60,7 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
             #     l = f.readlines()
 
 
-            times = l[0::3]  # 'Time:16:54:10;;Date:2022-10-27;;Week:4\n'
+            times = l[0::5]  # 'Time:16:54:10;;Date:2022-10-27;;Week:4\n'
             self.x = []
             for i in times:
                 time = i.strip().split('Time:')[1].split(';')[0]  # '16:54:10;;Date:2022-10-27;;Week:4']
@@ -69,19 +69,30 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
                 self.x.append(merge)
             #print('33',self.x)
 
-            tempers = l[1::3]
+            tempers = l[1::5]
             self.temper_l = []
             for i in tempers:
-                temper = i.split(':')[1].strip().replace('℃', '')
-                self.temper_l.append(eval(temper))
+                try:
+                    temper = i.split(':')[1].strip().replace('℃', '')
+                    self.temper_l.append(eval(temper))
+                except:
+                    self.temper_l.append(None)
             #print(self.temper_l)
 
-            depths = l[2::3]
-            self.depth_l = []
-            for i in depths:
+            depths_1 = l[3::5]
+            self.depth_l1 = []
+            for i in depths_1:
                 depth = i.split(':')[1].split(' ')[1]
-                self.depth_l.append(eval(depth))
-            #print(self.depth_l)
+                self.depth_l1.append(eval(depth))
+            #print(self.depth_l1)
+
+            depths_2 = l[4::5]
+            self.depth_l2 = []
+            for i in depths_2:
+                depth = i.split(':')[1].split(' ')[1]
+                self.depth_l2.append(eval(depth))
+            #print(self.depth_l2)
+
 
             self.step = int(len(self.x)/7 + 1) #x轴的step
 
@@ -104,13 +115,20 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
                 day_temper.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
                 self.tableWidget.setItem(1,t_temper,day_temper)
                 t_temper +=1
-    # 写入深度
-            t_depth = 0
-            for i in self.depth_l:
-                day_depth = QtWidgets.QTableWidgetItem(str(i))
-                day_depth.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                self.tableWidget.setItem(2,t_depth,day_depth)
-                t_depth +=1
+    # 写入深度(位移 depth_l1，depth_l2)
+            t_depth1 = 0
+            for i in self.depth_l1:
+                day_depth1 = QtWidgets.QTableWidgetItem(str(i))
+                day_depth1.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                self.tableWidget.setItem(2,t_depth1,day_depth1)
+                t_depth1 +=1
+
+            t_depth2 = 0
+            for i in self.depth_l2:
+                day_depth2 = QtWidgets.QTableWidgetItem(str(i))
+                day_depth2.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                self.tableWidget.setItem(3,t_depth2,day_depth2)
+                t_depth2 +=1
 
 
             self.tableWidget.resizeColumnsToContents()
@@ -195,12 +213,14 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         self.canvas = FigureCanvas(self.figure)  # 画布
         self.horizontalLayout.addWidget(self.canvas)
         plt.plot(self.x, self.temper_l,color='b')
-        plt.plot(self.x, self.depth_l,color='r')
+        plt.plot(self.x, self.depth_l1,color='r')
+        plt.plot(self.x, self.depth_l2,color='m')
         plt.rcParams['font.sans-serif']=['Microsoft Yahei']#matplotlib不支持中文，得这样   
-        plt.legend(labels=['温度','深度'],loc=0)
+        plt.legend(labels=['温度','前进位移','后退位移'],loc=0)
         plt.xticks(self.x[::self.step], self.x[::self.step], rotation=0, fontsize=8)
         plt.scatter(self.x, self.temper_l,color='b',alpha=0.2) #生成点
-        plt.scatter(self.x, self.depth_l,color='r',alpha=0.2)
+        plt.scatter(self.x, self.depth_l1,color='r',alpha=0.2)
+        plt.scatter(self.x, self.depth_l2,color='m',alpha=0.2)
         plt.xlabel('时间',fontsize=10)
         plt.grid() #显示网格
         # plt.show()
@@ -224,20 +244,22 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         # plt.show()
         self.canvas.draw()
 
-    def draw_d(self): #只画深度
+    def draw_d(self): #只画深度（位移）
         plt.close()
         for i in range(self.horizontalLayout.count()): #清空画布
             self.horizontalLayout.itemAt(i).widget().deleteLater()
         self.figure = plt.figure(dpi=80, figsize=(1, 1))  # 画板  facecolor='#FFD7C4',
         self.canvas = FigureCanvas(self.figure)  # 画布
         self.horizontalLayout.addWidget(self.canvas)
-        plt.plot(self.x, self.depth_l,color='r')
+        plt.plot(self.x, self.depth_l1,color='r')
+        plt.plot(self.x, self.depth_l2,color='m')
         plt.rcParams['font.sans-serif']=['Microsoft Yahei']#matplotlib不支持中文，得这样   
-        plt.legend(labels=['深度'],loc=0)
+        plt.legend(labels=['前进位移','后退位移'],loc=0)
         plt.xticks(self.x[::self.step], self.x[::self.step], rotation=0, fontsize=8)
-        plt.scatter(self.x, self.depth_l,color='r',alpha=0.2)
+        plt.scatter(self.x, self.depth_l1,color='r',alpha=0.2)
+        plt.scatter(self.x, self.depth_l2,color='m',alpha=0.2)
         plt.xlabel('时间',fontsize=10)
-        plt.ylabel('深度',fontsize=10)
+        plt.ylabel('位移',fontsize=10)
         plt.grid()
         # plt.show()
         self.canvas.draw()
@@ -286,14 +308,14 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
                 for i in self.press_xls:
                     day_temper = QtWidgets.QTableWidgetItem(str(i))
                     day_temper.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                    self.tableWidget.setItem(3,t_press_xls,day_temper)
+                    self.tableWidget.setItem(4,t_press_xls,day_temper)
                     t_press_xls +=1
         # 写入尺寸（速度）
                 t_speed_xsl = 0
                 for i in self.speed_xls:
                     day_depth = QtWidgets.QTableWidgetItem(str(i))
                     day_depth.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
-                    self.tableWidget.setItem(4,t_speed_xsl,day_depth)
+                    self.tableWidget.setItem(5,t_speed_xsl,day_depth)
                     t_speed_xsl +=1
 
 
@@ -446,10 +468,11 @@ class demo(QtWidgets.QMainWindow,mainGUI.Ui_MainWindow):
         plt.xticks(self.x[::self.step*2], self.x[::self.step*2], rotation=0, fontsize=8)#x轴要更稀疏
         plt.grid()
         plt.subplot(2, 2, 2)#子图2
-        plt.plot(self.x, self.depth_l,color='r')
+        plt.plot(self.x, self.depth_l1,color='r')
+        plt.plot(self.x, self.depth_l2,color='m')
         plt.rcParams['font.sans-serif']=['Microsoft Yahei']#matplotlib不支持中文，得这样   
-        plt.legend(labels=['深度'],loc=0)
-        plt.ylabel('深度',fontsize=10)
+        plt.legend(labels=['前进位移','后退位移'],loc=0)
+        plt.ylabel('位移',fontsize=10)
         plt.xticks(self.x[::self.step*2], self.x[::self.step*2], rotation=0, fontsize=8)#x轴要更稀疏
         plt.grid()
         plt.subplot(2, 2, 3)#子图3

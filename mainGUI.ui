@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1107</width>
-    <height>864</height>
+    <width>1261</width>
+    <height>942</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -220,7 +220,7 @@
            </font>
           </property>
           <property name="text">
-           <string>深度</string>
+           <string>位移(前/后)</string>
           </property>
          </widget>
         </item>
@@ -278,7 +278,7 @@
            </font>
           </property>
           <property name="text">
-           <string>深度</string>
+           <string>位移(前/后)</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -379,7 +379,12 @@
         </row>
         <row>
          <property name="text">
-          <string>深度(CM)</string>
+          <string>前进位移(CM)</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>后退位移(CM)</string>
          </property>
         </row>
         <row>
@@ -403,7 +408,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1107</width>
+     <width>1261</width>
      <height>23</height>
     </rect>
    </property>
